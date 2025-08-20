@@ -1,0 +1,16 @@
+{
+  "name": "Skilllet - Micro-Skills Learning Platform",
+  "short_name": "Skilllet",
+  "description": "Learn new skills in under 10 minutes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+} 
