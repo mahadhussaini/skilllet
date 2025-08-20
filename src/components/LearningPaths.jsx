@@ -18,13 +18,33 @@ const LearningPaths = () => {
           description: "Complete path from beginner to advanced frontend developer",
           difficulty: "Beginner to Advanced",
           estimatedTime: "12 weeks",
-          skills: ["HTML Basics", "CSS Fundamentals", "JavaScript Essentials", "React Introduction"],
+          skills: [
+            { id: 1, title: "HTML Basics", time: "2 weeks", difficulty: "Beginner", completed: false },
+            { id: 2, title: "CSS Fundamentals", time: "3 weeks", difficulty: "Beginner", completed: false },
+            { id: 3, title: "JavaScript Essentials", time: "4 weeks", difficulty: "Intermediate", completed: false },
+            { id: 4, title: "React Introduction", time: "3 weeks", difficulty: "Intermediate", completed: false }
+          ],
           progress: 25
+        },
+        {
+          id: 2,
+          title: "Data Science Fundamentals",
+          description: "Learn the basics of data analysis and visualization",
+          difficulty: "Intermediate",
+          estimatedTime: "8 weeks",
+          skills: [
+            { id: 5, title: "Python Basics", time: "2 weeks", difficulty: "Beginner", completed: false },
+            { id: 6, title: "Data Analysis", time: "3 weeks", difficulty: "Intermediate", completed: false },
+            { id: 7, title: "Data Visualization", time: "3 weeks", difficulty: "Intermediate", completed: false }
+          ],
+          progress: 0
         }
       ];
       setLearningPaths(paths);
       setUserGoals([
-        { id: 1, title: "Master React", progress: 40, deadline: "2024-03-01" }
+        { id: 1, title: "Master React", progress: 40, target: 100, deadline: "2024-03-01" },
+        { id: 2, title: "Complete 5 Skills", progress: 2, target: 5, deadline: "2024-02-15" },
+        { id: 3, title: "Learn Python", progress: 0, target: 100, deadline: "2024-04-01" }
       ]);
     };
 
@@ -80,9 +100,9 @@ const LearningPaths = () => {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {path.tags.slice(0, 3).map((tag, index) => (
-          <span key={index} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">
-            {tag}
+        {path.skills.slice(0, 3).map((skill, index) => (
+          <span key={skill.id} className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">
+            {skill.title}
           </span>
         ))}
       </div>

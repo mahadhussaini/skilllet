@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, Users, Clock, Target, Eye, CheckCircle, Star, Activity } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Clock, Target, Eye, CheckCircle, Star, Icon } from 'lucide-react';
 import useStore from '../store/useStore';
 
 const AnalyticsDashboard = () => {
@@ -12,17 +12,31 @@ const AnalyticsDashboard = () => {
     const generateAnalytics = () => {
       // Mock analytics data for demonstration
       const mockAnalytics = {
-        totalViews: 1247,
-        totalUploads: 23,
-        avgCompletionRate: 78,
-        avgRating: 4.6,
-        recentActivity: [
-          { date: '2024-01-15', views: 45, completions: 23 },
-          { date: '2024-01-14', views: 52, completions: 28 },
-          { date: '2024-01-13', views: 38, completions: 19 },
-          { date: '2024-01-12', views: 61, completions: 31 },
-          { date: '2024-01-11', views: 44, completions: 22 }
-        ]
+        overview: {
+          totalSkills: 8,
+          totalViews: 1247,
+          totalUpvotes: 156,
+          totalCompletions: 89,
+          avgCompletionRate: 78,
+          avgViewsPerSkill: 156
+        },
+        timeSeries: [
+          { date: '2024-01-15', views: 45, completions: 23, upvotes: 12 },
+          { date: '2024-01-14', views: 52, completions: 28, upvotes: 15 },
+          { date: '2024-01-13', views: 38, completions: 19, upvotes: 8 },
+          { date: '2024-01-12', views: 61, completions: 31, upvotes: 18 },
+          { date: '2024-01-11', views: 44, completions: 22, upvotes: 10 }
+        ],
+        skillPerformance: [
+          { id: 1, title: "React Hooks Basics", views: 234, upvotes: 45, completions: 67, completionRate: 28.6 },
+          { id: 2, title: "JavaScript Fundamentals", views: 189, upvotes: 32, completions: 54, completionRate: 28.6 },
+          { id: 3, title: "CSS Grid Layout", views: 156, upvotes: 28, completions: 42, completionRate: 26.9 }
+        ],
+        engagement: {
+          comments: 23,
+          bookmarks: 45,
+          shares: 12
+        }
       };
       setAnalytics(mockAnalytics);
     };
@@ -36,7 +50,7 @@ const AnalyticsDashboard = () => {
 
 
 
-  const StatCard = ({ title, value, change, color = 'blue' }) => (
+  const StatCard = ({ title, value, icon: Icon, change, color = 'blue' }) => (
     <div className="card">
       <div className="flex items-center justify-between">
         <div className="flex-1 min-w-0">
@@ -242,7 +256,7 @@ const AnalyticsDashboard = () => {
               <div className="flex items-center space-x-2">
                 <TrendingUp className="w-4 h-4 text-green-500" />
                 <span className="text-sm text-gray-600 dark:text-gray-400">
-                  Your most popular skill is getting {Math.max(...(analytics.skillPerformance?.map(s => s.views) || [0]))} views
+                  Your most popular skill is getting {analytics.skillPerformance && analytics.skillPerformance.length > 0 ? Math.max(...analytics.skillPerformance.map(s => s.views)) : 0} views
                 </span>
               </div>
               <div className="flex items-center space-x-2">
@@ -263,8 +277,13 @@ const AnalyticsDashboard = () => {
       </div>
 
       {/* Skill Performance Table */}
-      {analytics.skillPerformance && analytics.skillPerformance.length > 0 && (
+      {analytics.skillPerformance && analytics.skillPerformance.length > 0 ? (
         <SkillPerformanceTable skills={analytics.skillPerformance} />
+      ) : (
+        <div className="card">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Skill Performance</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-400">No skills created yet. Start creating skills to see performance data!</p>
+        </div>
       )}
     </div>
   );

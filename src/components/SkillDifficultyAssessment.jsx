@@ -12,10 +12,26 @@ const SkillDifficultyAssessment = () => {
       // Mock difficulty data
       const mockData = skills.map(skill => ({
         ...skill,
-        difficultyVotes: { easy: 10, medium: 15, hard: 5 },
-        timeVotes: [skill.estimatedTime],
-        avgDifficulty: 2.3,
-        avgTime: skill.estimatedTime
+        difficultyVotes: { 'Very Easy': 5, 'Easy': 10, 'Medium': 15, 'Hard': 8, 'Very Hard': 3 },
+        timeVotes: { 'Under 5 min': 8, '5-10 min': 12, '10-15 min': 10, '15-20 min': 5, 'Over 20 min': 2 },
+        totalVotes: 41,
+        lastUpdated: new Date().toISOString(),
+        comments: Array.isArray(skill.comments) ? skill.comments : [
+          {
+            id: 1,
+            user: "John Doe",
+            difficulty: "Medium",
+            timeEstimate: "5-10 min",
+            comment: "Great skill! Found it challenging but manageable."
+          },
+          {
+            id: 2,
+            user: "Jane Smith",
+            difficulty: "Easy",
+            timeEstimate: "Under 5 min",
+            comment: "Perfect for beginners, well explained."
+          }
+        ]
       }));
       setDifficultyData(mockData);
     };
@@ -180,7 +196,7 @@ const SkillDifficultyAssessment = () => {
         <div>
           <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-3">Community Feedback</h4>
           <div className="space-y-3">
-            {skill.comments.slice(0, 2).map(comment => (
+            {Array.isArray(skill.comments) && skill.comments.slice(0, 2).map(comment => (
               <div key={comment.id} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-sm text-gray-900 dark:text-gray-100">{comment.user}</span>
@@ -193,6 +209,9 @@ const SkillDifficultyAssessment = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400">{comment.comment}</p>
               </div>
             ))}
+            {(!Array.isArray(skill.comments) || skill.comments.length === 0) && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 italic">No community feedback yet</p>
+            )}
           </div>
         </div>
 
@@ -294,7 +313,7 @@ const SkillDifficultyAssessment = () => {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Community Feedback</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {Array.isArray(difficultyData) ? difficultyData.reduce((sum, skill) => sum + skill.comments.length, 0) : 0}
+                {Array.isArray(difficultyData) ? difficultyData.reduce((sum, skill) => sum + (Array.isArray(skill.comments) ? skill.comments.length : 0), 0) : 0}
               </p>
             </div>
           </div>
